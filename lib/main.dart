@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 void main() {
 
-  //change status bar color
+  //-------------change status bar color-----------
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
   ),);
@@ -18,9 +18,9 @@ void main() {
       MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (_) => DataBloc(
-              repository: ApiManager(),
-            ),
+
+            create: (_) => DataBloc(repository: ApiManager(),),
+
           )
         ],
         child: MyApp(),

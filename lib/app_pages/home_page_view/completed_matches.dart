@@ -6,6 +6,7 @@ import 'package:cricket_info/utility/color_constants.dart';
 import 'package:cricket_info/utility/text_style.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class CompletedMatches extends StatefulWidget {
   final String token;
@@ -23,7 +24,7 @@ class _CompletedMatchesState extends State<CompletedMatches> {
   void initState() {
     dataBloc = context.read<DataBloc>();
     dataBloc!.add(
-      FetchDataEvent(accessToken: widget.token, format: 6, status: 3),
+      FetchDataEvent(accessToken: widget.token, format: 3, status: 2),
     );
     super.initState();
   }
@@ -50,7 +51,7 @@ class _CompletedMatchesState extends State<CompletedMatches> {
               child: state.dataModel.response!.items!.length == 0 ?
               Container(
                 height: MediaQuery.of(context).size.height * 0.8,
-                child: Center(child: Text('No data for Completed sessions'),),
+                child: Center(child: Text('No data for Live sessions'),),
               ) :
               ListView.builder(
                   itemCount: state.dataModel.response!.items!.length,
@@ -58,6 +59,13 @@ class _CompletedMatchesState extends State<CompletedMatches> {
                   physics: AlwaysScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index){
+
+                    var tempDate = DateFormat.yMMMMEEEEd('en_US').format(DateTime.parse('${state.dataModel.response!.items![index].dateStart}'));
+                    var tempDate1 = tempDate.split(',')[0].substring(0,3);
+                    var tempDate2 = tempDate.split(',')[1].split(' ')[2];
+                    var tempDate3 = tempDate.split(',')[1].split(' ')[1].substring(0,3);
+                    String date = tempDate1.toString() + ' ' + tempDate2.toString() + ' ' + tempDate3.toString();
+
                     return Container(
                       child: Column(
                         children: [
@@ -65,10 +73,9 @@ class _CompletedMatchesState extends State<CompletedMatches> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('2nd Test, ', style: cardHeaderStyle,),
-                              Text('Freedom Series, ', style: cardHeaderStyle,),
-                              Text('Wed 14 Mar, ', style: cardHeaderStyle,),
-                              Text('7:30 BDT', style: cardHeaderStyle,),
+                              Text('${state.dataModel.response!.items![index].subtitle}, ', style: cardHeaderStyle,),
+                              Text('${state.dataModel.response!.items![index].competition!.title}, ', style: cardHeaderStyle,),
+                              Text('$date, ', style: cardHeaderStyle,),
                             ],
                           ),
                           SizedBox(height: 8.h,),
@@ -84,14 +91,14 @@ class _CompletedMatchesState extends State<CompletedMatches> {
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('New Zeland', style: teamScoreStyle,),
-                                          Text('20/5 *', style: teamScoreStyle,),
+                                          Text('${state.dataModel.response!.items![index].teama!.name}', style: teamScoreStyle,),
+                                          Text('${state.dataModel.response!.items![index].teama!.scoresFull}', style: teamScoreStyle,),
                                         ],
                                       ),
                                       Container(
-                                        height: 26.h, width: 30.w,
+                                        height: 30.h, width: 36.w,
                                         padding: EdgeInsets.only(bottom: 8.h),
-                                        child: Image.asset('assets/temp_images/country_flag.png',
+                                        child: Image.network('${state.dataModel.response!.items![index].teama!.logoUrl}',
                                           fit: BoxFit.fill,),
                                       ),
                                     ],
@@ -106,27 +113,29 @@ class _CompletedMatchesState extends State<CompletedMatches> {
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         Container(
-                                          height: 26.h, width: 30.w,
+                                          height: 30.h, width: 36.w,
                                           padding: EdgeInsets.only(bottom: 8.h),
-                                          child: Image.asset('assets/temp_images/country_flag.png',
-                                          fit: BoxFit.fill,),
+                                          child: Image.network('${state.dataModel.response!.items![index].teamb!.logoUrl}',
+                                            fit: BoxFit.fill,),
                                         ),
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
-                                            Text('Bangladesh', style: teamScoreStyle,),
-                                            Text('20/5 *', style: teamScoreStyle,),
+                                            Text('${state.dataModel.response!.items![index].teamb!.name}', style: teamScoreStyle,),
+                                            Text('${state.dataModel.response!.items![index].teama!.scoresFull}', style: teamScoreStyle,),
                                           ],
                                         ),
                                       ],
                                     )
                                 ),
-                                Icon(Icons.notifications_none, color: CardGreyColor, size: 18.sp,)
                               ],
                             ),
                           ),
-                          Text('Completed'.toUpperCase(), style: matchStateStyle,),
-                          Text('Srilanka needs 100 runs to win', style: cardHeaderStyle, maxLines: 1,),
+                          Container(
+                              padding: EdgeInsets.only(right: 12.w),
+                              child: Text('${state.dataModel.response!.items![index].statusStr}'.toUpperCase(), style: matchStateStyle,)),
+                          SizedBox(height: 4.h,),
+                          Text('${state.dataModel.response!.items![index].result}', style: cardHeaderStyle, maxLines: 1,),
                           SizedBox(height: 12.h,),
                           Container(
                             margin: EdgeInsets.symmetric(horizontal: 24.w),

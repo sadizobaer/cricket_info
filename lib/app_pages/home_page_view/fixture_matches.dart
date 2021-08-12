@@ -6,6 +6,7 @@ import 'package:cricket_info/utility/color_constants.dart';
 import 'package:cricket_info/utility/text_style.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 class FixtureMatches extends StatefulWidget {
   final String token;
@@ -58,6 +59,13 @@ class _FixtureMatchesState extends State<FixtureMatches> {
                   physics: AlwaysScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index){
+
+                    var tempDate = DateFormat.yMMMMEEEEd('en_US').format(DateTime.parse('${state.dataModel.response!.items![index].dateStart}'));
+                    var tempDate1 = tempDate.split(',')[0].substring(0,3);
+                    var tempDate2 = tempDate.split(',')[1].split(' ')[2];
+                    var tempDate3 = tempDate.split(',')[1].split(' ')[1].substring(0,3);
+                    String date = tempDate1.toString() + ' ' + tempDate2.toString() + ' ' + tempDate3.toString();
+
                     return Container(
                       child: Column(
                         children: [
@@ -65,10 +73,10 @@ class _FixtureMatchesState extends State<FixtureMatches> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('2nd Test, ', style: cardHeaderStyle,),
-                              Text('Freedom Series, ', style: cardHeaderStyle,),
-                              Text('Wed 14 Mar, ', style: cardHeaderStyle,),
-                              Text('7:30 BDT', style: cardHeaderStyle,),
+                              Text('${state.dataModel.response!.items![index].subtitle}, ', style: cardHeaderStyle,),
+                              Text('${state.dataModel.response!.items![index].formatStr}, ', style: cardHeaderStyle,),
+                              Text(date + ', ', style: cardHeaderStyle,),
+                              Text('${state.dataModel.response!.items![index].venue!.location}', style: cardHeaderStyle,),
                             ],
                           ),
                           SizedBox(height: 8.h,),
@@ -81,17 +89,11 @@ class _FixtureMatchesState extends State<FixtureMatches> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('New Zeland', style: teamScoreStyle,),
-                                          Text('20/5 *', style: teamScoreStyle,),
-                                        ],
-                                      ),
+                                      Text('${state.dataModel.response!.items![index].teama!.name}', style: teamScoreStyle,),
                                       Container(
-                                        height: 26.h, width: 30.w,
-                                        padding: EdgeInsets.only(bottom: 8.h),
-                                        child: Image.asset('assets/temp_images/country_flag.png',
+                                        height: 30.h, width: 36.w,
+                                        padding: EdgeInsets.only(bottom: 4.h),
+                                        child: Image.network('${state.dataModel.response!.items![index].teama!.logoUrl}',
                                           fit: BoxFit.fill,),
                                       ),
                                     ],
@@ -106,27 +108,22 @@ class _FixtureMatchesState extends State<FixtureMatches> {
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
                                         Container(
-                                          height: 26.h, width: 30.w,
-                                          padding: EdgeInsets.only(bottom: 8.h),
-                                          child: Image.asset('assets/temp_images/country_flag.png',
+                                          height: 30.h, width: 36.w,
+                                          padding: EdgeInsets.only(bottom: 4.h),
+                                          child: Image.network('${state.dataModel.response!.items![index].teamb!.logoUrl}',
                                             fit: BoxFit.fill,),
                                         ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                          children: [
-                                            Text('Bangladesh', style: teamScoreStyle,),
-                                            Text('20/5 *', style: teamScoreStyle,),
-                                          ],
-                                        ),
+                                        Text('${state.dataModel.response!.items![index].teamb!.name}', style: teamScoreStyle,),
                                       ],
                                     )
                                 ),
-                                Icon(Icons.notifications_none, color: CardGreyColor, size: 18.sp,)
+                                //Icon(Icons.notifications_none, color: CardGreyColor, size: 18.sp,)
                               ],
                             ),
                           ),
-                          Text('Completed'.toUpperCase(), style: matchStateStyle,),
-                          Text('Srilanka needs 100 runs to win', style: cardHeaderStyle, maxLines: 1,),
+                          Container(
+                              padding: EdgeInsets.only(right: 12.w, top: 4.h),
+                              child: Text('${state.dataModel.response!.items![index].statusStr}'.toUpperCase(), style: matchStateStyle,)),
                           SizedBox(height: 12.h,),
                           Container(
                             margin: EdgeInsets.symmetric(horizontal: 24.w),
@@ -142,4 +139,5 @@ class _FixtureMatchesState extends State<FixtureMatches> {
           return Container();
         });
   }
+
 }

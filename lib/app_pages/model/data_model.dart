@@ -101,7 +101,7 @@ class Items {
    String? equation;
    String? live;
    String? result;
-   String? resultType;
+   dynamic? resultType;
    String? winMargin;
    int? winningTeamId;
    int? commentary;
