@@ -11,6 +11,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  String accessToken = '437214169d9be2a73e91d22f76f68b52';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,14 +84,14 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Pakistan', style: teamScoreStyle,),
+                              Text('New Zeland', style: teamScoreStyle,),
                               Text('20/5 *', style: teamScoreStyle,),
                             ],
                           ),
@@ -97,12 +100,15 @@ class _HomePageState extends State<HomePage> {
                             padding: EdgeInsets.only(bottom: 16.h),
                             child: Image.asset('assets/temp_images/country_flag.png'),
                           ),
-                          Column(
-                            children: [
-                              Text('vs'.toUpperCase(), style: teamVsStyle,),
-                              SizedBox(height: 8.h,),
-                              Text('live'.toUpperCase(), style: matchStateStyle,),
-                            ],
+                          Container(
+                            padding: EdgeInsets.only(top: 12.h),
+                            child: Column(
+                              children: [
+                                Text('vs'.toUpperCase(), style: teamVsStyle,),
+                                SizedBox(height: 8.h,),
+                                Text('live'.toUpperCase(), style: matchStateStyle,),
+                              ],
+                            ),
                           ),
                           Container(
                             height: 80.h, width: 34.w,
@@ -112,18 +118,19 @@ class _HomePageState extends State<HomePage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text('Pakistan', style: teamScoreStyle,),
+                              Text('Bangladesh', style: teamScoreStyle,),
                               Text('20/5 *', style: teamScoreStyle,),
                             ],
                           ),
+                          Icon(Icons.notifications_none, color: CardGreyColor, size: 18.sp,)
                         ],
                       ),
                     ),
-                    Text('Srilanka needs 100 runs to win', style: cardHeaderStyle,),
+                    Text('Srilanka needs 100 runs to win', style: cardHeaderStyle, maxLines: 1,),
                     SizedBox(height: 12.h,),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 24),
-                      height: 0.7,
+                      margin: EdgeInsets.symmetric(horizontal: 24.w),
+                      height: 0.7.h,
                       color: CardGreyColor,
                     )
                   ],

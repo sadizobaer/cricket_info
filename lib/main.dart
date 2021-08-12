@@ -1,4 +1,4 @@
-import 'package:cricket_info/home_page.dart';
+import 'package:cricket_info/app_pages/home_page_view/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
