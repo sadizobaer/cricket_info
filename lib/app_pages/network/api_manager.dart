@@ -8,7 +8,7 @@ class ApiManager{
 
   Future getMatchesData({required int status, required int format, required String accessToken}) async {
 
-    final response = await dio.post(
+    final response = await dio.get(
       "https://rest.entitysport.com/v2/matches/?status=$status&format=$format&token=$accessToken",
       options: Options(
         headers: {

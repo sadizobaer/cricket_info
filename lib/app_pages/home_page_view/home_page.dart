@@ -1,3 +1,6 @@
+import 'package:cricket_info/app_pages/home_page_view/completed_matches.dart';
+import 'package:cricket_info/app_pages/home_page_view/fixture_matches.dart';
+import 'package:cricket_info/app_pages/home_page_view/live_matches.dart';
 import 'package:cricket_info/utility/color_constants.dart';
 import 'package:cricket_info/utility/text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +16,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   String accessToken = '437214169d9be2a73e91d22f76f68b52';
+  String selected = 'Live';
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +51,18 @@ class _HomePageState extends State<HomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text('Live'.toUpperCase(), style: tabSelectedStyle,),
-                Text('Fixture'.toUpperCase(), style: tabUnselectedStyle,),
-                Text('Result'.toUpperCase(), style: tabUnselectedStyle,),
+                InkWell(
+                  onTap: (){_onTabChanged('Live');},
+                    child: Text('Live'.toUpperCase(),
+                      style: (selected == 'Live') ? tabSelectedStyle : tabUnselectedStyle,),),
+                InkWell(
+                  onTap: (){_onTabChanged('Fixture');},
+                    child: Text('Fixture'.toUpperCase(),
+                        style: (selected == 'Fixture') ? tabSelectedStyle : tabUnselectedStyle,),),
+                InkWell(
+                  onTap: (){_onTabChanged('Result');},
+                    child: Text('Result'.toUpperCase(),
+                        style: (selected== 'Result') ? tabSelectedStyle : tabUnselectedStyle,),),
               ],
             ),
           ),
@@ -62,86 +75,28 @@ class _HomePageState extends State<HomePage> {
           ),
 
           //list of matches
-
-          Expanded(
-            child: ListView.builder(
-              itemCount: 2,
-                shrinkWrap: true,
-                physics: AlwaysScrollableScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index){
-              return Container(
-                child: Column(
-                  children: [
-                    SizedBox(height: 14.h,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('2nd Test, ', style: cardHeaderStyle,),
-                        Text('Freedom Series, ', style: cardHeaderStyle,),
-                        Text('Wed 14 Mar, ', style: cardHeaderStyle,),
-                        Text('7:30 BDT', style: cardHeaderStyle,),
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('New Zeland', style: teamScoreStyle,),
-                              Text('20/5 *', style: teamScoreStyle,),
-                            ],
-                          ),
-                          Container(
-                            height: 80.h, width: 34.w,
-                            padding: EdgeInsets.only(bottom: 16.h),
-                            child: Image.asset('assets/temp_images/country_flag.png'),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(top: 12.h),
-                            child: Column(
-                              children: [
-                                Text('vs'.toUpperCase(), style: teamVsStyle,),
-                                SizedBox(height: 8.h,),
-                                Text('live'.toUpperCase(), style: matchStateStyle,),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: 80.h, width: 34.w,
-                            padding: EdgeInsets.only(bottom: 16.h),
-                            child: Image.asset('assets/temp_images/country_flag.png'),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text('Bangladesh', style: teamScoreStyle,),
-                              Text('20/5 *', style: teamScoreStyle,),
-                            ],
-                          ),
-                          Icon(Icons.notifications_none, color: CardGreyColor, size: 18.sp,)
-                        ],
-                      ),
-                    ),
-                    Text('Srilanka needs 100 runs to win', style: cardHeaderStyle, maxLines: 1,),
-                    SizedBox(height: 12.h,),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 24.w),
-                      height: 0.7.h,
-                      color: CardGreyColor,
-                    )
-                  ],
-                ),
-              );
-            }),
-          )
+          _redirectToView(selected),
 
         ],
       ),
-
     );
   }
+
+  _onTabChanged(String value){
+    setState(() {
+      selected = value;
+      print(selected);
+    });
+  }
+
+  _redirectToView(String value){
+
+    if(value == 'Live'){return LiveMatches(token: accessToken,);}
+
+    if(value == 'Fixture'){return FixtureMatches(token: accessToken,);}
+
+    if(value == 'Result'){return CompletedMatches(token: accessToken,);}
+
+  }
+
 }

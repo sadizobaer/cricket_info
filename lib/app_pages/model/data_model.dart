@@ -9,12 +9,12 @@ DataModel dataModelFromJson(String str) => DataModel.fromJson(json.decode(str));
 String dataModelToJson(DataModel data) => json.encode(data.toJson());
 
 class DataModel {
-  late String status;
-  late Response response;
-  late String etag;
-  late String modified;
-  late String datetime;
-  late String apiVersion;
+  String? status;
+  Response? response;
+  String? etag;
+  String? modified;
+  String? datetime;
+  String? apiVersion;
 
   DataModel(
       { required this.status,
@@ -36,7 +36,7 @@ class DataModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
-    data['response'] = this.response.toJson();
+    data['response'] = this.response!.toJson();
     data['etag'] = this.etag;
     data['modified'] = this.modified;
     data['datetime'] = this.datetime;
@@ -46,9 +46,9 @@ class DataModel {
 }
 
 class Response {
-  late List<Items> items;
-  late int totalItems;
-  late int totalPages;
+  List<Items>? items;
+  int? totalItems;
+  int? totalPages;
 
   Response({required this.items, required this.totalItems, required this.totalPages});
 
@@ -56,7 +56,7 @@ class Response {
     if (json['items'] != null) {
       items = <Items>[];
       json['items'].forEach((v) {
-        items.add(new Items.fromJson(v));
+        items!.add(new Items.fromJson(v));
       });
     }
     totalItems = json['total_items'];
@@ -65,7 +65,7 @@ class Response {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['items'] = this.items.map((v) => v.toJson()).toList();
+    data['items'] = this.items!.map((v) => v.toJson()).toList();
     data['total_items'] = this.totalItems;
     data['total_pages'] = this.totalPages;
     return data;
@@ -73,41 +73,41 @@ class Response {
 }
 
 class Items {
-  late int matchId;
-  late String title;
-  late String shortTitle;
-  late String subtitle;
-  late int format;
-  late String formatStr;
-  late int status;
-  late String statusStr;
-  late String statusNote;
-  late String verified;
-  late String preSquad;
-  late String oddsAvailable;
-  late int gameState;
-  late String gameStateStr;
-  late String domestic;
-  late Competition competition;
-  late Teama teama;
-  late Teamb teamb;
-  late String dateStart;
-  late String dateEnd;
-  late int timestampStart;
-  late int timestampEnd;
-  late Venue venue;
-  late String umpires;
-  late String referee;
-  late String equation;
-  late String live;
-  late String result;
-  late String resultType;
-  late String winMargin;
-  late int winningTeamId;
-  late int commentary;
-  late int wagon;
-  late int latestInningNumber;
-  late Toss toss;
+   int? matchId;
+   String? title;
+   String? shortTitle;
+   String? subtitle;
+   int? format;
+   String? formatStr;
+   int? status;
+   String? statusStr;
+   String? statusNote;
+   String? verified;
+   String? preSquad;
+   String? oddsAvailable;
+   int? gameState;
+   String? gameStateStr;
+   String? domestic;
+   Competition? competition;
+   Teama? teama;
+   Teamb? teamb;
+   String? dateStart;
+   String? dateEnd;
+   int? timestampStart;
+   int? timestampEnd;
+   Venue? venue;
+   String? umpires;
+   String? referee;
+   String? equation;
+   String? live;
+   String? result;
+   String? resultType;
+   String? winMargin;
+   int? winningTeamId;
+   int? commentary;
+   int? wagon;
+   int? latestInningNumber;
+   Toss? toss;
 
   Items(
       { required this.matchId,
@@ -201,14 +201,14 @@ class Items {
     data['game_state'] = this.gameState;
     data['game_state_str'] = this.gameStateStr;
     data['domestic'] = this.domestic;
-    data['competition'] = this.competition.toJson();
-    data['teama'] = this.teama.toJson();
-    data['teamb'] = this.teamb.toJson();
+    data['competition'] = this.competition!.toJson();
+    data['teama'] = this.teama!.toJson();
+    data['teamb'] = this.teamb!.toJson();
     data['date_start'] = this.dateStart;
     data['date_end'] = this.dateEnd;
     data['timestamp_start'] = this.timestampStart;
     data['timestamp_end'] = this.timestampEnd;
-    data['venue'] = this.venue.toJson();
+    data['venue'] = this.venue!.toJson();
     data['umpires'] = this.umpires;
     data['referee'] = this.referee;
     data['equation'] = this.equation;
@@ -220,26 +220,26 @@ class Items {
     data['commentary'] = this.commentary;
     data['wagon'] = this.wagon;
     data['latest_inning_number'] = this.latestInningNumber;
-    data['toss'] = this.toss.toJson();
+    data['toss'] = this.toss!.toJson();
     return data;
   }
 }
 
 class Competition {
-  late int cid;
-  late String title;
-  late String abbr;
-  late String type;
-  late String category;
-  late String matchFormat;
-  late String status;
-  late String season;
-  late String datestart;
-  late String dateend;
-  late String country;
-  late String totalMatches;
-  late String totalRounds;
-  late String totalTeams;
+   int? cid;
+   String? title;
+   String? abbr;
+   String? type;
+   String? category;
+   String? matchFormat;
+   String? status;
+   String? season;
+   String? datestart;
+   String? dateend;
+   String? country;
+   String? totalMatches;
+   String? totalRounds;
+   String? totalTeams;
 
   Competition(
       { required this.cid,
@@ -295,13 +295,13 @@ class Competition {
 }
 
 class Teama {
-  late int teamId;
-  late String name;
-  late String shortName;
-  late String logoUrl;
-  late String scoresFull;
-  late String scores;
-  late String overs;
+  int? teamId;
+  String? name;
+  String? shortName;
+  String? logoUrl;
+  String? scoresFull;
+  String? scores;
+  String? overs;
 
   Teama(
       { required this.teamId,
@@ -336,11 +336,11 @@ class Teama {
 }
 
 class Teamb {
-  late int teamId;
-  late String name;
-  late String shortName;
-  late String logoUrl;
-  late String scoresFull;
+   int? teamId;
+   String? name;
+   String? shortName;
+   String? logoUrl;
+   String? scoresFull;
 
   Teamb(
       { required this.teamId,
@@ -369,10 +369,10 @@ class Teamb {
 }
 
 class Venue {
-  late String venueId;
-  late String name;
-  late String location;
-  late String timezone;
+   String? venueId;
+   String? name;
+   String? location;
+   String? timezone;
 
   Venue({ required this.venueId,
     required this.name,
@@ -397,9 +397,9 @@ class Venue {
 }
 
 class Toss {
-  late String text;
-  late int winner;
-  late int decision;
+   String? text;
+   int? winner;
+   int? decision;
 
   Toss({ required this.text,
     required this.winner,

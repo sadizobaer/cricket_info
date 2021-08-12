@@ -36,6 +36,32 @@ class DataBloc extends Bloc<DataEvent, DataState> with ChangeNotifier {
         final response = await repository.getMatchesData(status: event.status, format: event.format, accessToken: event.accessToken);
 
         if(response.statusCode == 200){
+
+          DataModel dataModel = DataModel.fromJson(response.data);
+
+          yield DataSuccess(dataModel: dataModel);
+
+        }
+
+        else {
+
+          yield DataFailure(errorMessage: 'Failed to fetch data');
+
+        }
+
+
+      }
+
+      if (currentState is DataSuccess) {
+        yield DataLoading();
+        repository = ApiManager();
+
+        //----------api called------------
+
+        final response = await repository.getMatchesData(status: event.status, format: event.format, accessToken: event.accessToken);
+
+        if(response.statusCode == 200){
+
           DataModel dataModel = DataModel.fromJson(response.data);
 
           yield DataSuccess(dataModel: dataModel);
